@@ -2,12 +2,13 @@ let gameSeq = [];
 
 let userSeq = [];
 
-
 let btns = ['yellow', 'red', 'purple', 'green'];
 
 let started = false;
 
 let level = 0;
+
+let highScore = localStorage.getItem('highScore') || 0;
 
 
 let h2 = document.querySelector('h2');
@@ -78,17 +79,31 @@ if (userSeq[index]== gameSeq[index]) {
   }
 
 } else {
-  h2.innerHTML = `Game Over! Your score was <b>${level}</b> <br> Press any key to start`;
 
-document.querySelector('body').style.backgroundColor = "red";
+        if (level > highScore) {
 
-  setTimeout (function () {
+            highScore = level;
 
-    document.querySelector('body').style.backgroundColor = "white";
-  }, 150)
-  reset ();
-}
+            localStorage.setItem('highScore', highScore);
 
+            h2.innerText = `Game over, new highscore: ${highScore} | Press any button to start again`;
+
+        }
+        else if (level < highScore) {
+
+            h2.innerText = `Game Over, your score was ${level}, Highscore: ${highScore}, press any button to start again`;
+        }
+
+        document.querySelector('body').style.backgroundColor = 'red';
+
+        setTimeout(() => {
+
+            document.querySelector('body').style.backgroundColor = 'white';
+
+        }, 150);
+
+        reset();
+    }
 } 
 
 
